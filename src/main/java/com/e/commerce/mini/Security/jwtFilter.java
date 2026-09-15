@@ -24,6 +24,23 @@ public class jwtFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(
+            HttpServletRequest request
+    ) throws ServletException {
+
+        String path = request.getServletPath();
+
+        return path.equals("/api/contact")
+                || path.startsWith("/api/contact/")
+                || path.equals("/api/users/login")
+                || path.equals("/api/users/register")
+                || path.equals("/api/users/refresh")
+                || path.equals("/api/password-reset/request")
+                || path.equals("/api/password-reset/verify")
+                || path.equals("/api/password-reset/reset");
+    }
+
+    @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -102,11 +119,6 @@ public class jwtFilter extends OncePerRequestFilter {
                     .getContext()
                     .setAuthentication(authentication);
 
-            /*
-             * TEMPORARY DEBUG
-             *
-             * We will remove this after testing.
-             */
             System.out.println(
                     "----------------------------------------"
             );
@@ -148,14 +160,6 @@ public class jwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        /*
-         * IMPORTANT:
-         *
-         * This is outside the try/catch.
-         *
-         * Authorization exceptions must be handled by
-         * Spring Security's AccessDeniedHandler.
-         */
         filterChain.doFilter(
                 request,
                 response

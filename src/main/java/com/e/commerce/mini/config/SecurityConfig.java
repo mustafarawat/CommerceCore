@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import java.util.List;
 
 import org.springframework.web.cors.CorsConfiguration;
@@ -67,6 +68,8 @@ public class SecurityConfig {
                                 "/api/password-reset/request",
                                 "/api/password-reset/verify",
                                 "/api/password-reset/reset",
+                                "/api/contact",
+                                "/api/contact/",
                                 "/oauth2/**",
                                 "/login/oauth2/**"
                         ).permitAll()
